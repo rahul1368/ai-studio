@@ -1,38 +1,67 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # Dependencies
-node_modules
+node_modules/
 .pnp
 .pnp.js
 
-# Local env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
 # Testing
-coverage
+/coverage
 
-# Turbo
-.turbo
-
-# Vercel
-.vercel
-
-# Build Outputs
+# Next.js
 .next/
 out/
-build
-dist
+build/
+dist/
 
+# Production
+*.log
+*.tgz
+
+# Misc
+.DS_Store
+*.pem
 
 # Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Misc
-.DS_Store
-*.pem
+# Local env files
+.env
+.env*.local
+
+# Vercel
+.vercel
+
+# Typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Turborepo
+.turbo
+
+# Uploads directory
+uploads/
+!uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Terraform/OpenTofu
+*.tfstate
+*.tfstate.*
+.terraform/
+.terragrunt-cache/
+*.tfvars
+!*.tfvars.example
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# OS
+Thumbs.db
