@@ -1,0 +1,22 @@
+{
+  "name": "@repo/langchain",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.35",
+    "langchain": "^0.3.12",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "5.9.2"
+  }
+}
+
