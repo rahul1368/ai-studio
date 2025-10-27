@@ -27,7 +27,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Check for existing token on mount
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       fetchUser(storedToken);

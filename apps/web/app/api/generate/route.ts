@@ -13,7 +13,6 @@ const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE || '10485760'); // 10MB
 
 export async function POST(req: NextRequest) {
   try {
-    // Auth check
     const user = await getUserFromRequest(req);
     if (!user) {
       return NextResponse.json(
@@ -22,12 +21,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Parse form data
     const formData = await req.formData();
     const file = formData.get('image') as File | null;
     const prompt = formData.get('prompt') as string | null;
 
-    // Validation
     if (!file) {
       return NextResponse.json(
         { error: 'Image file is required' },
@@ -49,7 +46,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate image format
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -61,17 +57,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create uploads directory if it doesn't exist
     const uploadsPath = join(process.cwd(), UPLOAD_DIR);
     await mkdir(uploadsPath, { recursive: true });
 
-    // Save original image
     const timestamp = Date.now();
     const originalFilename = `${user.id}-${timestamp}-${file.name}`;
     const originalPath = join(uploadsPath, originalFilename);
     await writeFile(originalPath, buffer);
 
-    // Create generation record (PENDING status)
     const generation = await prisma.generation.create({
       data: {
         userId: user.id,
@@ -81,14 +74,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Generate image (with simulated AI processing and error possibility)
     const result = await generateImage({
       imageBuffer: buffer,
       imagePath: originalPath,
       prompt: prompt.trim(),
     });
 
-    // Update generation record based on result
     if (result.success && result.resultPath) {
       await prisma.generation.update({
         where: { id: generation.id },

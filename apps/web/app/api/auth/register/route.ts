@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { email, password, name } = registerSchema.parse(body);
 
-    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -26,10 +25,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Hash password
     const hashedPassword = await hashPassword(password);
 
-    // Create user
     const user = await prisma.user.create({
       data: {
         email,
@@ -44,7 +41,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Generate JWT token
     const token = signToken({
       userId: user.id,
       email: user.email,

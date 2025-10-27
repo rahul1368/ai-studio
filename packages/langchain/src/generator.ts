@@ -1,27 +1,17 @@
 import sharp from 'sharp';
 import type { GenerationInput, GenerationResult } from './types';
 
-/**
- * Simulate AI image generation
- * Since this is a demo, we'll apply simple image transformations
- * to simulate a "generated" result
- */
 export async function generateImage(input: GenerationInput): Promise<GenerationResult> {
   try {
-    // Simulate API errors randomly (20% chance)
     if (Math.random() < 0.2) {
       throw new Error('Simulated API error: Service temporarily unavailable');
     }
 
-    // Simulate processing delay (1-3 seconds)
     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
 
-    // Apply transformations based on prompt keywords
     let image = sharp(input.imageBuffer);
-
     const promptLower = input.prompt.toLowerCase();
 
-    // Apply different effects based on prompt
     if (promptLower.includes('vintage') || promptLower.includes('retro')) {
       image = image.tint({ r: 255, g: 240, b: 200 }).modulate({ saturation: 0.7 });
     } else if (promptLower.includes('dark') || promptLower.includes('moody')) {
@@ -31,11 +21,9 @@ export async function generateImage(input: GenerationInput): Promise<GenerationR
     } else if (promptLower.includes('blur') || promptLower.includes('soft')) {
       image = image.blur(3);
     } else {
-      // Default: slight color enhancement
       image = image.modulate({ saturation: 1.1, brightness: 1.05 });
     }
 
-    // Add a colored border to show it's been "processed"
     image = image.extend({
       top: 10,
       bottom: 10,
@@ -44,14 +32,12 @@ export async function generateImage(input: GenerationInput): Promise<GenerationR
       background: { r: 100, g: 200, b: 255, alpha: 1 }
     });
 
-    // Generate output path
     const timestamp = Date.now();
     const outputPath = input.imagePath.replace(
       /(\.[^.]+)$/,
       `-generated-${timestamp}$1`
     );
 
-    // Save the processed image
     await image.toFile(outputPath);
 
     return {
@@ -66,9 +52,6 @@ export async function generateImage(input: GenerationInput): Promise<GenerationR
   }
 }
 
-/**
- * Validate image file
- */
 export async function validateImage(buffer: Buffer): Promise<boolean> {
   try {
     const metadata = await sharp(buffer).metadata();

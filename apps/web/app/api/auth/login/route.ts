@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { email, password } = loginSchema.parse(body);
 
-    // Find user
     const user = await prisma.user.findUnique({
       where: { email },
     });
@@ -25,7 +24,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verify password
     const isPasswordValid = await verifyPassword(password, user.password);
 
     if (!isPasswordValid) {
@@ -35,7 +33,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Generate JWT token
     const token = signToken({
       userId: user.id,
       email: user.email,

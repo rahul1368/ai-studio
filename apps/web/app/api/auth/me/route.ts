@@ -25,7 +25,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Get user from database
     const user = await prisma.user.findUnique({
       where: { id: payload.userId },
       select: {

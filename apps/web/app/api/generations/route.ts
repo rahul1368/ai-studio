@@ -6,7 +6,6 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
-    // Auth check
     const user = await getUserFromRequest(req);
     if (!user) {
       return NextResponse.json(
@@ -15,7 +14,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Get last 5 generations for the user
     const generations = await prisma.generation.findMany({
       where: {
         userId: user.id,
@@ -35,7 +33,6 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // Transform file paths to web URLs
     const UPLOAD_DIR = process.env.UPLOAD_DIR || './uploads';
     const transformedGenerations = generations.map((gen) => ({
       ...gen,
