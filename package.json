@@ -3,7 +3,11 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "build:packages": "pnpm --filter \"@repo/*\" build",
+    "predev": "kill-port 3000 4000 || true",
+    "dev": "pnpm build:packages && concurrently \"pnpm --filter api start:dev\" \"pnpm --filter web dev\" --names \"API,WEB\" --prefix-colors \"blue,green\"",
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api start:dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
@@ -12,6 +16,9 @@
     "test:coverage": "turbo run test:coverage"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
+    "dotenv-cli": "^10.0.0",
+    "kill-port": "^2.0.1",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
     "typescript": "5.9.2"
