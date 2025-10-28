@@ -67,6 +67,12 @@ export function useInfiniteGenerations(token: string | null) {
       revalidateOnFocus: false,
       revalidateOnReconnect: true,
       dedupingInterval: 5000,
+      // Add caching for better performance
+      revalidateIfStale: false,
+      revalidateOnMount: true,
+      refreshInterval: 0,
+      // Cache for 5 minutes
+      focusThrottleInterval: 300000,
     }
   );
 
