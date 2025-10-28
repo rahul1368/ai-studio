@@ -66,6 +66,15 @@ export function GenerationCard({ generation, onReapply, viewMode }: GenerationCa
     }
   };
 
+  const handleRetry = async () => {
+    try {
+      await onReapply(generation.id, generation.prompt);
+      toast.success('Retrying generation...');
+    } catch (error) {
+      toast.error('Failed to retry generation');
+    }
+  };
+
   if (viewMode === 'list') {
     return (
       <Card className="w-full">
@@ -103,13 +112,25 @@ export function GenerationCard({ generation, onReapply, viewMode }: GenerationCa
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => onReapply(generation.id, generation.prompt)}
-              >
-                <RefreshCw className="w-4 h-4" />
-              </Button>
+              {generation.status === 'FAILED' ? (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleRetry}
+                  className="text-red-600 hover:text-red-700"
+                >
+                  <RefreshCw className="w-4 h-4 mr-1" />
+                  Retry
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onReapply(generation.id, generation.prompt)}
+                >
+                  <RefreshCw className="w-4 h-4" />
+                </Button>
+              )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button size="sm" variant="ghost">
