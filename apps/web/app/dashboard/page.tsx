@@ -237,7 +237,7 @@ export default function DashboardPage() {
                             ? 'bg-primary text-primary-foreground border-primary'
                             : 'bg-background hover:bg-accent text-foreground border-border'
                         }`}
-                        aria-label={`Use prompt ${tag}`}
+                        aria-label={`Use style ${tag}`}
                       >
                         {tag}
                       </button>
