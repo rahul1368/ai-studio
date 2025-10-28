@@ -14,6 +14,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GenerationService } from './generation.service';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { sanitize } from 'dompurify';
+import { JSDOM } from 'jsdom';
 
 @ApiTags('generation')
 @ApiBearerAuth()
