@@ -237,7 +237,7 @@ export default function DashboardPage() {
                             ? 'bg-primary text-primary-foreground border-primary'
                             : 'bg-background hover:bg-accent text-foreground border-border'
                         }`}
-                        aria-label={`Use prompt ${tag}`}
+                        aria-label={`Use style ${tag}`}
                       >
                         {tag}
                       </button>
@@ -260,6 +260,11 @@ export default function DashboardPage() {
                   </>
                 )}
               </Button>
+              
+              {/* Keyboard shortcut hint */}
+              <p className="text-xs text-muted-foreground mt-2">
+                💡 Press <kbd className="px-1.5 py-0.5 text-xs bg-muted rounded">Enter</kbd> to generate
+              </p>
             </form>
           </CardContent>
         </Card>
@@ -332,9 +337,16 @@ export default function DashboardPage() {
                 ) : sortedGenerations.length === 0 ? (
                   <div className="text-center py-12">
                     <ImageIcon className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground mb-4">
                       No generations yet. Create your first one above!
                     </p>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => document.getElementById('file-upload')?.click()}
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      Upload Your First Image
+                    </Button>
                   </div>
                 ) : (
                   <>
@@ -376,9 +388,16 @@ export default function DashboardPage() {
                 ) : sortedGenerations.length === 0 ? (
                   <div className="text-center py-12">
                     <ImageIcon className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground mb-4">
                       No generations yet. Create your first one above!
                     </p>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => document.getElementById('file-upload')?.click()}
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      Upload Your First Image
+                    </Button>
                   </div>
                 ) : (
                   <>
